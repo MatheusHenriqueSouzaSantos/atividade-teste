@@ -3,7 +3,7 @@ package models;
 import java.util.ArrayList;
 
 public class ClienteModel {
-	public static ArrayList<ClienteModel> clientesCadastrados=new ArrayList<ClienteModel>();
+	private static ArrayList<ClienteModel> CLIENTESCADASTRADOS=new ArrayList<ClienteModel>();
 	private String nome;
 	private String cpf;
 	
@@ -24,32 +24,46 @@ public class ClienteModel {
 		this.cpf = cpf;
 	}
 	public static void adicionarCliente(ClienteModel cliente) {
-		clientesCadastrados.add(cliente);
+		CLIENTESCADASTRADOS.add(cliente);
 	}
-	public static void removercliente(String cpf) {
-		ArrayList<ClienteModel> clientesCadastradosTemp = new ArrayList<>(clientesCadastrados);
-		for (ClienteModel clienteModel : clientesCadastradosTemp) {
-			if(clienteModel.cpf.equals(cpf)) {
-				clientesCadastrados.remove(clienteModel);
-			}
-		}
+	public static boolean excluirCliente(String cpf) {
+		return CLIENTESCADASTRADOS.removeIf((ClienteModel clienteIterado)->{
+			 return clienteIterado.getCpf().equals(cpf);
+		});	
 	}
-	public static ClienteModel buscarClientes(String cpf) {
-		for (ClienteModel clienteModel : clientesCadastrados) {
+	public static ClienteModel buscarCliente(String cpf) {
+		for (ClienteModel clienteModel : CLIENTESCADASTRADOS) {
 			if(clienteModel.cpf.equals(cpf)) {
 				return clienteModel;
 			}
 		}
 		return null;
 	}
-	public static void atualizarCliente(String cpf,String nome) {
-		ArrayList<ClienteModel> clientesCadastradosTemp = new ArrayList<>(clientesCadastrados);
-		for (ClienteModel clienteModel : clientesCadastradosTemp) {
-			int index=1;
-			if(clienteModel.cpf.equals(cpf)) {
-				clientesCadastrados.get(index).setNome(nome);;
+	public static boolean atualizarCliente(String cpf,String novoNomedeUsuario) {
+		for (ClienteModel clienteModelIterado : CLIENTESCADASTRADOS) {
+			if(clienteModelIterado.getCpf().equals(cpf)) {
+				clienteModelIterado.setNome(novoNomedeUsuario);
+				return true;
 			}
 		}
+		return false;
 	}
 	
 }
+
+//		ArrayList<ClienteModel> clientesCadastradosTemp = new ArrayList<>(CLIENTESCADASTRADOS);
+//		for (ClienteModel clienteModel : clientesCadastradosTemp) {
+//			if(clienteModel.cpf.equals(cpf)) {
+//				CLIENTESCADASTRADOS.remove(clienteModel);
+//			}
+//		}
+//ArrayList<ClienteModel> variavelTemporariaDeClientesCadastrados = new ArrayList<>(CLIENTESCADASTRADOS);
+//int indice;
+//for (ClienteModel clienteModelIterado : variavelTemporariaDeClientesCadastrados) {
+//	if(clienteModelIterado.cpf.equals(cpf)) {
+//		indice=CLIENTESCADASTRADOS.indexOf(clienteEnviadoUser);
+//		ClienteModel clienteASerAtualizado=	CLIENTESCADASTRADOS.get(indice);
+//		clienteASerAtualizado.setCpf(clienteEnviadoUser.getCpf());
+//		clienteASerAtualizado.setNome(clienteEnviadoUser.getNome());
+//	}
+//}

@@ -1,18 +1,34 @@
 package controllers;
 
 import models.ClienteModel;
-import models.Emprestimo;
+import models.EmprestimoModel;
+import models.TipoDeJurosDoEmprestimo;
 
 public class EmprestimoController {
-	public void criarEmprestimo(Float valorDoEmprestimo, ClienteModel clienteDoEmprestimo,
-			boolean emprestimoQuitado,boolean emprestimoEhJurosSimples,int ano) {
-		Emprestimo emprestimo=new Emprestimo(valorDoEmprestimo, clienteDoEmprestimo, emprestimoQuitado, emprestimoEhJurosSimples, ano);
-		Emprestimo.adicionaremprestimo(emprestimo);
+	ClienteControl clienteControl;
+	
+	public void criarEmprestimo(Double valorDoEmprestimo,String cpfDoClienteReferenteAoEmprestimo,TipoDeJurosDoEmprestimo tipoDeJurosDoEmprestimo,
+			int anotempoDesdeAConcessaodoEmprestimoEmAnos) {
+		clienteControl=new ClienteControl();
+		ClienteModel clienteReferenteAoEmprestimo;
+		clienteReferenteAoEmprestimo=clienteControl.buscarCliente(cpfDoClienteReferenteAoEmprestimo);
+		EmprestimoModel emprestimo=new EmprestimoModel(valorDoEmprestimo, clienteReferenteAoEmprestimo, tipoDeJurosDoEmprestimo, anotempoDesdeAConcessaodoEmprestimoEmAnos);
+		EmprestimoModel.adicionaremprestimo(emprestimo);
 	}
-	public void deletarEmprestimo(int id) {
-		Emprestimo.removercliente(id);
+	public boolean excluirEmprestimo(int id) {
+		return EmprestimoModel.excluirEmprestimo(id);
 	}
-	public Emprestimo buscarEmprestimo(int id) {
-		return Emprestimo.buscarClientes(id);
+	public EmprestimoModel buscarEmprestimo(int id) {
+		return EmprestimoModel.buscarEmprestimo(id);
+	}
+	public boolean atualizarEmprestimo(int id,Double valorDoEmprestimo,String cpfDoClienteReferenteAoEmprestimo,TipoDeJurosDoEmprestimo tipoDeJurosDoEmprestimo,
+			int anotempoDesdeAConcessaodoEmprestimoEmAnos) {
+		clienteControl=new ClienteControl();
+		ClienteModel clienteReferenteAoEmprestimo;
+		clienteReferenteAoEmprestimo=clienteControl.buscarCliente(cpfDoClienteReferenteAoEmprestimo);
+		return EmprestimoModel.atualizarEmprestimo(id,valorDoEmprestimo,clienteReferenteAoEmprestimo,tipoDeJurosDoEmprestimo,anotempoDesdeAConcessaodoEmprestimoEmAnos);
+	}
+	public boolean quitarEmprestimo(int idDoEmprestimo) {
+		return EmprestimoModel.quitarEmprestimo(idDoEmprestimo);
 	}
 }

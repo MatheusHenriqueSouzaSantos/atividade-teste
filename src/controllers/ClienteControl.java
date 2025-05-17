@@ -8,13 +8,13 @@ public class ClienteControl {
 		ClienteModel cliente1=new ClienteModel(nome, cpf);
 		ClienteModel.adicionarCliente(cliente1);
 	}
-	public void deletarCliente(String cpf) {
-		ClienteModel.removercliente(cpf);
+	public boolean excluirCliente(String cpf) {
+		return ClienteModel.excluirCliente(cpf);
 	}
 	public ClienteModel buscarCliente(String cpf) {
-		return ClienteModel.buscarClientes(cpf);
+		return ClienteModel.buscarCliente(cpf);
 	}
-	public void atualizarCliente(String nome,String cpf) {
-		ClienteModel.atualizarCliente(cpf, nome);
+	public boolean atualizarCliente(String cpfParaBusca,String novoNome) {
+		return ClienteModel.atualizarCliente(cpfParaBusca,novoNome);
 	}
 }	
